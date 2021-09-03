@@ -11,7 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^16.7.4",
-    "fastify": "^3.20.2"
+    "fastify": "^3.20.2",
+    "fastify-static": "^4.2.3",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
