@@ -4,3 +4,6 @@ form {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.btn {
+    width: 100%;
+}

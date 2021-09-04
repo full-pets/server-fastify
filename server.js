@@ -6,7 +6,7 @@ fastify.register(require('fastify-static'), {
     root: path.join(__dirname, '/public')
 })
 
-fastify.register(require('./routes/items'))
+fastify.register(require('./routes/auth'))
 
 fastify.get('/', async (request, reply) => {
     return reply.sendFile('index.html')
