@@ -8,9 +8,13 @@
     <title>Title</title>
 </head>
 <body class="container pt-5">
-<div id="app">
-
+<div id="app" class="col-12">
+    <div class="form-check form-switch">
+        <input v-model="isLogin" @change="toggle" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">{{this.switch}}</label>
+    </div>
     <form v-if="isLogin" class="col-3">
+        <h2>Login</h2>
         <div class="mb-3">
             <label for="InputEmail1" class="form-label">Email address</label>
             <input v-model="user.email" type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp">
@@ -23,7 +27,7 @@
             <input v-model="user.check" type="checkbox" class="form-check-input" id="Check1">
             <label class="form-check-label" for="Check1">Check me out</label>
         </div>
-        <button @click.prevent="signIn" class="btn btn-primary">Submit</button>
+        <button @click.prevent="signIn" class="btn btn-primary">Signin</button>
     </form>
     <form v-else class="col-3">
         <h2>Register</h2>

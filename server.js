@@ -2,6 +2,7 @@ const fastify = require('fastify')({ logger: true })
 const path = require('path')
 const client = require("./db");
 
+
 fastify.register(require('fastify-static'), {
     root: path.join(__dirname, '/public')
 })
@@ -15,10 +16,6 @@ fastify.get('/', async (request, reply) => {
 const start = async () => {
     try {
         await client.connect()
-        await client.query('SELECT * from users', (err, res) => {
-            console.log(res.rows)
-            client.end()
-        })
         await fastify.listen(3000)
     } catch (err) {
         fastify.log.error(err)

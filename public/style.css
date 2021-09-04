@@ -1,8 +1,17 @@
-form {
+#app {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    height: 50%;
+}
+.form-switch {
+    position: absolute;
+    left: 60%;
+}
+form {
+    margin: 0 auto;
+
 }
 .btn {
     width: 100%;

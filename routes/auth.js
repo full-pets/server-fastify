@@ -1,11 +1,12 @@
 const client = require("../db")
+const insertUserBuilder = require("../contollers/auth.controller")
 
 const User = {
-    id: {type: 'string'},
-    login: {type: 'string'},
-    email: {type: 'string'},
-    password: {type: 'string'},
-    role: {type: 'string'},
+    id: { type: 'string' },
+    login: { type: 'string' },
+    email: { type: 'string' },
+    password: { type: 'string' },
+    role: { type: 'string' },
 }
 const getItemsOptions = {
     schema: {
@@ -21,16 +22,18 @@ const getItemsOptions = {
     }
 }
 
-function itemRoutes(fastify, option, done) {
-    fastify.get('/auth', getItemsOptions, async (request, reply) => {
-        reply.send(users)
+function authRoutes(fastify, option, done) {
+    fastify.post('/api/login', async (request, reply) => {
+        reply.send(request.body)
     })
-    fastify.get('/auth/:id', async (request, reply) => {
-        const { id } = request.params
-        const item = users.find(i => i.id === id)
-        reply.send(item)
+    fastify.post('/api/register', async (request, reply) => {
+        const user = request.body
+        const response = await insertUserBuilder([user.login, user.email, user.password, user.role], user.password)
+        const status = response.success ? 201 : 500
+        console.log(status)
+        reply.status(status).send(response)
     })
     done()
 }
 
-module.exports = itemRoutes
+module.exports = authRoutes
