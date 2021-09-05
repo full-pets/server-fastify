@@ -5,8 +5,18 @@ function authRoutes(fastify, option, done) {
         const user = request.body
         const response = await getUser(Object.values({ email: user.email, password: user.password }))
         const code = response.success ? 200 : 422
-        if (response.success) response.token = fastify.jwt.sign({user: 'user'})
-        reply.status(code).send(response)
+        try {
+            if (response.success) {
+                response.token = fastify.jwt.sign({ user: 'user' })
+                reply.status(code).send(response)
+            } else {
+                throw new Error('User not found')
+            }
+        } catch ({ message }) {
+            reply.status(code).send({ success: false, message })
+        }
+
+
     })
     fastify.post('/api/register', async (request, reply) => {
         const user = request.body

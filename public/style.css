@@ -16,3 +16,11 @@ form {
 .btn {
     width: 100%;
 }
+table {
+    margin: 0 auto;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+}
