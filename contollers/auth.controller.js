@@ -2,20 +2,37 @@ const { v4: idv4 } = require('uuid')
 const crypto = require('crypto')
 const client = require('../db')
 
-const text = 'INSERT INTO users(id, login, email, password, role) VALUES($1, $2, $3, $4, $5)'
+const insert = 'INSERT INTO users(id, login, email, password, role) VALUES($1, $2, $3, $4, $5)'
 const salt = "secretkeynumber1";
 
-async function insertUserBuilder(values, password) {
-    const array = values
+const get = 'select * from users where email = $1'
+
+async function insertUserBuilder(values) {
+    const array = [...values]
     array.unshift(idv4())
-    array[3] = crypto.scryptSync(password, salt, 36).toString('hex')
     try {
-        const res = await client.query(text, array)
+        array[3] = crypto.scryptSync(array[3], salt, 36).toString('hex')
+        const res = await client.query(insert, array)
         return { success: true }
-    } catch (err) {
-        return { success: false, message: err.message.split(' ').pop().split('_')[1] || err.message }
+    } catch ({ message }) {
+        return { success: false, message }
     }
 }
 
-module.exports = insertUserBuilder
+async function getUser(values) {
+    const [email, password] = [...values]
+    try {
+        const res = await client.query(get, [email])
+        if(res.rows.length) {
+            const success = res.rows[0].password === crypto.scryptSync(password, salt, 36).toString('hex')
+            return { success }
+        } else {
+           throw new Error('User not found')
+        }
+    } catch ({ message }) {
+        return { success: false, message }
+    }
+}
+
+module.exports = { insertUserBuilder, getUser }
 

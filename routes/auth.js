@@ -1,37 +1,18 @@
-const client = require("../db")
-const insertUserBuilder = require("../contollers/auth.controller")
-
-const User = {
-    id: { type: 'string' },
-    login: { type: 'string' },
-    email: { type: 'string' },
-    password: { type: 'string' },
-    role: { type: 'string' },
-}
-const getItemsOptions = {
-    schema: {
-        response: {
-            200: {
-                type: 'array',
-                items: {
-                    type: 'object',
-                    properties: User
-                }
-            }
-        }
-    }
-}
+const { insertUserBuilder, getUser } = require("../contollers/auth.controller")
 
 function authRoutes(fastify, option, done) {
     fastify.post('/api/login', async (request, reply) => {
-        reply.send(request.body)
+        const user = request.body
+        const response = await getUser(Object.values({ email: user.email, password: user.password }))
+        const code = response.success ? 200 : 422
+        if (response.success) response.token = fastify.jwt.sign({user: 'user'})
+        reply.status(code).send(response)
     })
     fastify.post('/api/register', async (request, reply) => {
         const user = request.body
-        const response = await insertUserBuilder([user.login, user.email, user.password, user.role], user.password)
-        const status = response.success ? 201 : 500
-        console.log(status)
-        reply.status(status).send(response)
+        const response = await insertUserBuilder(Object.values(user))
+        const code = response.success ? 201 : 422
+        reply.status(code).send(response)
     })
     done()
 }

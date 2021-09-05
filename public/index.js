@@ -9,7 +9,8 @@ const app = new Vue({
             check: true,
         },
         isLogin: false,
-        switch: 'Login'
+        switch: 'Login',
+        token: ''
     },
     methods: {
         toggle() {
@@ -32,10 +33,14 @@ const app = new Vue({
             }
         },
         async signIn() {
-            fetch('/api/login', this.options('POST', this.user, 'application/json')).then(a => a.json()).then(console.log)
+            fetch('/api/login', this.options('POST', this.user, 'application/json')).then(a => a.json()).then(({token})=> this.token = token)
         },
         async register() {
-            fetch('/api/register', this.options('POST', this.user, 'application/json')).then(a => a.json()).then(console.log)
+            fetch('/api/register', this.options('POST', this.user, 'application/json')).then(a => a.json()).then(({success}) => this.isLogin = success)
+        },
+        async getUsers() {
+            const headers = this.token ? {'Authorization' : `Bearer ${this.token}`} : undefined
+            fetch('/api/users', { headers }).then(a => a.json()).then(console.log)
         }
     }
 })
