@@ -7,7 +7,7 @@ function authRoutes(fastify, option, done) {
         const code = response.success ? 200 : 422
         try {
             if (response.success) {
-                response.token = fastify.jwt.sign({ user: 'user' })
+                response.token = fastify.jwt.sign({ id: response.id })
                 reply.status(code).send(response)
             } else {
                 throw new Error('User not found')
@@ -15,8 +15,6 @@ function authRoutes(fastify, option, done) {
         } catch ({ message }) {
             reply.status(code).send({ success: false, message })
         }
-
-
     })
     fastify.post('/api/register', async (request, reply) => {
         const user = request.body

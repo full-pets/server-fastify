@@ -33,16 +33,16 @@ const app = new Vue({
                 body: JSON.stringify(user)
             }
         },
-        async signIn() {
-            await fetch('/api/login', this.options('POST', this.user, 'application/json')).then(a => a.json()).then(({ token }) => {
+        signIn() {
+            fetch('/api/login', this.options('POST', this.user, 'application/json')).then(a => a.json()).then(({ token }) => {
                 this.token = token
                 token && this.getUsers()
             })
         },
-        async register() {
+        register() {
             fetch('/api/register', this.options('POST', this.user, 'application/json')).then(a => a.json()).then(({ success }) => this.isLogin = success)
         },
-        async getUsers() {
+        getUsers() {
             const headers = this.token ? { 'Authorization': `Bearer ${this.token}` } : undefined
             fetch('api/users', { headers }).then(a => a.json()).then(users => this.users = users)
         }

@@ -23,11 +23,12 @@ async function getUser(values) {
     const [email, password] = [...values]
     try {
         const res = await client.query(get, [email])
-        if(res.rows.length) {
+        if (res.rows.length) {
+            const { id } = res.rows[0]
             const success = res.rows[0].password === crypto.scryptSync(password, salt, 36).toString('hex')
-            return { success }
+            return { success, id }
         } else {
-           throw new Error('User not found')
+            throw new Error('User not found')
         }
     } catch ({ message }) {
         return { success: false, message }
