@@ -3,11 +3,11 @@ const { insertUserBuilder, getUser } = require("../contollers/auth.controller")
 function authRoutes(fastify, option, done) {
     fastify.post('/api/login', async (request, reply) => {
         const user = request.body
-        const response = await getUser(Object.values({ email: user.email, password: user.password }))
-        const code = response.success ? 200 : 422
+        const dbResponse = await getUser(Object.values({ email: user.email, password: user.password }))
+        const code = dbResponse.success ? 200 : 422
         try {
-            if (response.success) {
-                response.token = fastify.jwt.sign({ id: response.id })
+            if (dbResponse.success) {
+                const response = {success: dbResponse.success, token: fastify.jwt.sign({ id: dbResponse.id })}
                 reply.status(code).send(response)
             } else {
                 throw new Error('User not found')

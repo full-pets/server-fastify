@@ -14,6 +14,7 @@ fastify.register(require('./routes/users'))
 fastify.decorate("authenticate", async function(request, reply) {
     try {
         await request.jwtVerify(request.raw.headers.authorization, (err, { id, iat }) => {
+            console.error(err)
             if (err || 3600 < (Math.round(Date.now() / 1000) - iat)) {
                 reply.status(401).send({ statusCode: 401, message: 'Unauthorized' })
             }
