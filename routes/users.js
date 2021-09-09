@@ -19,7 +19,6 @@ const getUsersOptions = {
         }
     }
 }
-Promise
 function usersRoutes(fastify, option, done) {
     fastify.get('/api/users', { ...getUsersOptions, ...{ preValidation: [fastify.authenticate] } }, async (request, reply) => {
         const { success, users } = await getUsers()

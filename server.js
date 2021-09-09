@@ -10,6 +10,7 @@ fastify.register(require('fastify-cors'), {
 
 fastify.register(require('./routes/auth'))
 fastify.register(require('./routes/users'))
+fastify.register(require('./routes/videos'))
 
 fastify.decorate("authenticate", async function(request, reply) {
     try {
@@ -27,6 +28,7 @@ fastify.decorate("authenticate", async function(request, reply) {
 fastify.get('/', async (request, reply) => {
     return reply.sendFile('index.html')
 })
+
 
 const start = async () => {
     try {

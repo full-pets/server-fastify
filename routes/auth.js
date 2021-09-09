@@ -7,7 +7,7 @@ function authRoutes(fastify, option, done) {
         const code = dbResponse.success ? 200 : 422
         try {
             if (dbResponse.success) {
-                const response = {success: dbResponse.success, token: fastify.jwt.sign({ id: dbResponse.id })}
+                const response = {success: dbResponse.success, id: dbResponse.id, token: fastify.jwt.sign({ id: dbResponse.id })}
                 reply.status(code).send(response)
             } else {
                 throw new Error('User not found')
