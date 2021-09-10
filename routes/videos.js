@@ -1,4 +1,4 @@
-const { getVideos, insertVideoBuilder } = require("../contollers/videos.controller");
+const { getVideos, insertVideoBuilder, getVideo } = require("../contollers/videos.controller");
 const { getUser } = require("../contollers/auth.controller");
 
 const Video = {
@@ -6,10 +6,20 @@ const Video = {
     name: { type: 'string' },
     link: { type: 'string' },
     owner: { type: 'string' },
-    duration: {type: 'string'},
-    quality: {type: 'string'},
-    created: {type: 'number'},
+    duration: { type: 'string' },
+    quality: { type: 'string' },
+    created: { type: 'number' },
 
+}
+const getVideoOptions = {
+    schema: {
+        response: {
+            200: {
+                type: 'object',
+                properties: Video
+            }
+        }
+    }
 }
 const getVideosOptions = {
     schema: {
@@ -24,12 +34,19 @@ const getVideosOptions = {
         }
     }
 }
+
 function videosRoutes(fastify, option, done) {
     fastify.get('/api/videos', { ...getVideosOptions, ...{ preValidation: [fastify.authenticate] } }, async (request, reply) => {
         const { success, videos } = await getVideos()
-        console.log({ success })
         const code = success ? 200 : 404
         reply.status(code).send(videos || [])
+    })
+    fastify.get('/api/videos/:id', { ...getVideoOptions, ...{ preValidation: [fastify.authenticate] } }, async (request, reply) => {
+        const { id } = request.params
+        const { success, video } = await getVideo(id)
+        console.log({ video })
+        const code = success ? 200 : 404
+        reply.status(code).send(video)
     })
     fastify.post('/api/videos', async (request, reply) => {
         const video = request.body
