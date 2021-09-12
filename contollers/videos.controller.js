@@ -3,7 +3,7 @@ const client = require('../db')
 
 const insert = 'INSERT INTO videos(Id, Name, Link, Owner, Duration, Quality, Created) VALUES($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP(0))'
 
-const get = 'select * from videos'
+const get = 'select v.id, v.name, v.link, v.duration, v.quality, v.created, u.login as owner from videos v left join users u on v.owner=u.id'
 
 async function insertVideoBuilder(values) {
     const array = [...values]
@@ -29,8 +29,9 @@ async function getVideos() {
     }
 }
 async function getVideo(params) {
-    const str = `where id = `
+    const str = `where v.id = `
     const query = params ? get + " " + str + "'" + params + "'" : get
+    console.log(query)
     try {
         const res = await client.query(query)
         if (res.rows.length) {

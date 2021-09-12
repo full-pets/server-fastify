@@ -1,4 +1,4 @@
-const fastify = require('fastify')({logger: true})
+const fastify = require('fastify')({ logger: true })
 const path = require('path')
 const client = require("./db");
 
@@ -12,13 +12,16 @@ fastify.register(require('./routes/auth'))
 fastify.register(require('./routes/users'))
 fastify.register(require('./routes/videos'))
 
-fastify.decorate("authenticate", async function(request, reply) {
+fastify.decorate("authenticate", async function (request, reply) {
     try {
-        await request.jwtVerify(request.raw.headers.authorization, (err, { id, iat }) => {
-            console.error(err)
-            if (err || 3600 < (Math.round(Date.now() / 1000) - iat)) {
+        await request.jwtVerify(request.raw.headers.authorization, (err, decode) => {
+            if (err) {
+                reply.status(401).send({ statusCode: 401, message: 'Unauthorized' })
+            } else if (3600 < (Math.round(Date.now() / 1000) - decode.iat)) {
+                // const { id, iat } = decode
                 reply.status(401).send({ statusCode: 401, message: 'Unauthorized' })
             }
+
         })
     } catch (err) {
         reply.send(err)

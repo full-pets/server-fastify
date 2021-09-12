@@ -1,6 +1,4 @@
 
-//<<<<<<<USERS>>>>>>>>>
-
 create table if not exists Users(
 	Id char(36) primary key,
 	Login varchar(99) not null,
@@ -9,8 +7,6 @@ create table if not exists Users(
 	Avatar varchar(256),
 	Role varchar(99) not null
 	);
-
-//<<<<<<< VIDEOS >>>>>>>>>
 
 create table if not exists Videos(
 	Id char(36) primary key,
@@ -22,5 +18,4 @@ create table if not exists Videos(
 	Created timestamp not null,
 	FOREIGN KEY (Owner) REFERENCES Users(Id)
 );
-INSERT INTO videos(Id, Name, Link, Owner, Duration, Quality, Created) VALUES($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP(0));
-//<<<<<<<  >>>>>>>>>
+

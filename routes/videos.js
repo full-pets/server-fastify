@@ -44,7 +44,6 @@ function videosRoutes(fastify, option, done) {
     fastify.get('/api/videos/:id', { ...getVideoOptions, ...{ preValidation: [fastify.authenticate] } }, async (request, reply) => {
         const { id } = request.params
         const { success, video } = await getVideo(id)
-        console.log({ video })
         const code = success ? 200 : 404
         reply.status(code).send(video)
     })
