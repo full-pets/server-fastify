@@ -31,11 +31,9 @@ async function getVideos() {
 async function getVideo(params) {
     const str = `where v.id = `
     const query = params ? get + " " + str + "'" + params + "'" : get
-    console.log(query)
     try {
         const res = await client.query(query)
         if (res.rows.length) {
-            console.log(res.rows[0])
             return { success: true, video: res.rows[0] }
         } else {
             throw new Error('Video not found')

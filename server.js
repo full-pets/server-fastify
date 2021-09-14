@@ -2,15 +2,15 @@ const fastify = require('fastify')({ logger: true })
 const path = require('path')
 const client = require("./db");
 
+fastify.register(require('fastify-file-upload'))
 fastify.register(require('fastify-jwt'), { secret: 'token' })
 fastify.register(require('fastify-static'), { root: path.join(__dirname, '/public') })
-fastify.register(require('fastify-cors'), {
-    origin: ['http://localhost:3000']
-})
+fastify.register(require('fastify-cors'), { origin: ['http://localhost:3000'] })
 
 fastify.register(require('./routes/auth'))
 fastify.register(require('./routes/users'))
 fastify.register(require('./routes/videos'))
+fastify.register(require('./routes/files'))
 
 fastify.decorate("authenticate", async function (request, reply) {
     try {
