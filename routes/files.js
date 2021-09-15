@@ -1,17 +1,15 @@
-const fs = require("fs");
+const { uploadFile, myReadFile } = require("../contollers/file.controller");
 
 function filesRoutes(fastify, option, done) {
-
+    // fastify.get('/api/file/:name', async (request, reply) => {
+    //     const { name } = request.params
+    //     const file =await myReadFile(name)
+    //     reply.send(file)
+    // })
     fastify.post('/api/file', async (request, reply) => {
-        const b = request.body
-        console.log(b)
-        // const file = new Uint8Array(Buffer.from(request.body))
-        // fs.writeFile('image.svg', file,  'base64', (err) => {
-        //     if (err) throw err;
-        //     console.log({ file: 123 })
-        // });
-
-        reply.send({success: true})
+        const file = request.raw.files.file
+        const writeFile = await uploadFile(file)
+        reply.send({ success: writeFile })
     })
     done()
 }

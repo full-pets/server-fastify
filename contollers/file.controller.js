@@ -1,10 +1,26 @@
-const fs = require('fs/promises')
-async function getFile() {
+const fs = require('fs')
+const path = require('path')
+
+async function uploadFile(file) {
     try {
+        fs.writeFile(path.resolve(__dirname, '../image', file.name), file.data, (err) => {
+            if (err) throw err;
+            return true
+        });
 
     } catch {
-        return { success: false }
+        return false
     }
 }
+async function myReadFile(name) {
+    try {
+        fs.readFile(path.resolve(__dirname, '../image', name), (err, data) => {
+            if (err) throw err;
+            return data
+        });
 
-module.exports = { getFile }
+    } catch {
+        return false
+    }
+}
+module.exports = { uploadFile, myReadFile }
