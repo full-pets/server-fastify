@@ -55,7 +55,7 @@ function videosRoutes(fastify, option, done) {
             if (dbResponse.success) {
                 reply.status(code).send({ success: true })
             } else {
-                throw new Error('User not found')
+                return new Error('User not found')
             }
         } catch ({ message }) {
             reply.status(code).send({ success: false, message })

@@ -4,7 +4,7 @@ const client = require("./db");
 
 fastify.register(require('fastify-file-upload'))
 fastify.register(require('fastify-jwt'), { secret: 'token' })
-fastify.register(require('fastify-static'), { root: path.join(__dirname, '/image'), prefix: '/image/' })
+fastify.register(require('fastify-static'), { root: path.join(__dirname, '/images'), prefix: '/images/' })
 fastify.register(require('fastify-cors'), { origin: ['http://localhost:3000'] })
 
 fastify.register(require('./routes/auth'))

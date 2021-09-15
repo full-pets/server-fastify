@@ -22,7 +22,7 @@ async function getVideos() {
         if (res.rows.length) {
             return { success: true, videos: res.rows }
         } else {
-            throw new Error('Videos not found')
+            return new Error('Videos not found')
         }
     } catch ({ message }) {
         return { success: false, message }
@@ -30,13 +30,13 @@ async function getVideos() {
 }
 async function getVideo(params) {
     const str = `where v.id = `
-    const query = params ? get + " " + str + "'" + params + "'" : get
+    const query = params ? `${ get } ${str}'${params}'` : get
     try {
         const res = await client.query(query)
         if (res.rows.length) {
             return { success: true, video: res.rows[0] }
         } else {
-            throw new Error('Video not found')
+            return new Error('Video not found')
         }
     } catch ({ message }) {
         return { success: false, message }

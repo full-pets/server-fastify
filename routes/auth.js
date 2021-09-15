@@ -10,7 +10,7 @@ function authRoutes(fastify, option, done) {
                 const response = {success: dbResponse.success, id: dbResponse.id, token: fastify.jwt.sign({ id: dbResponse.id })}
                 reply.status(code).send(response)
             } else {
-                throw new Error('User not found')
+                return new Error('User not found')
             }
         } catch ({ message }) {
             reply.status(code).send({ success: false, message })

@@ -37,7 +37,7 @@ async function updateOneUser(id, body) {
         })
         const queryString = updateOne.replace('###', str)
         const res = await client.query(`${queryString}'${id}';`)
-        return { success: true, user: res.rows[0] }
+        return { success: true }
     } catch ({ message }) {
         return { success: false, message }
     }

@@ -46,9 +46,9 @@ function usersRoutes(fastify, option, done) {
     fastify.patch('/api/users/:id', { ...getUserOptions, ...{ preValidation: [fastify.authenticate] } }, async (request, reply) => {
         const { id } = request.params
         const { body } = request
-        const { success, user } = await updateOneUser(id, body)
+        const { success } = await updateOneUser(id, body)
         const code = success ? 200 : 500
-        reply.status(code).send(user)
+        reply.status(code).send({ success })
     })
     done()
 }
