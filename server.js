@@ -29,6 +29,7 @@ fastify.decorate("authenticate", async function (request, reply) {
 })
 
 fastify.get('/', async (request, reply) => {
+    console.log(1111)
     return reply.sendFile('index.html')
 })
 
