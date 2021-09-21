@@ -1,0 +1,26 @@
+#app {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 50%;
+}
+.form-switch {
+    position: absolute;
+    left: 60%;
+}
+form {
+    margin: 0 auto;
+
+}
+.btn {
+    width: 100%;
+}
+table {
+    margin: 0 auto;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+}

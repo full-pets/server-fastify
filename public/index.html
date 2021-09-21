@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Title</title>
+</head>
+<body class="container pt-5">
+<div id="app" class="col-12">
+    <div v-if="!users.length" class="form-check form-switch">
+        <input v-model="isLogin" @change="toggle" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">{{this.switch}}</label>
+    </div>
+    <form v-if="!users.length" v-show="isLogin" class="col-3">
+        <h2>Login</h2>
+        <div class="mb-3">
+            <label for="InputEmail1" class="form-label">Email address</label>
+            <input v-model="user.email" type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input v-model="user.password" type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3 form-check">
+            <input v-model="user.check" type="checkbox" class="form-check-input" id="Check1">
+            <label class="form-check-label" for="Check1">Agree something</label>
+        </div>
+        <button @click.prevent="signIn" class="btn btn-primary">Signin</button>
+    </form>
+    <form v-if="!users.length" v-show="!isLogin" class="col-3">
+        <h2>Register</h2>
+        <div class="mb-3">
+            <label for="login" class="form-label">Your name</label>
+            <input v-model="user.login" type="text" class="form-control" id="login">
+        </div>
+        <div class="mb-3">
+            <label for="InputEmail2" class="form-label">Email address</label>
+            <input v-model="user.email" type="email" class="form-control" id="InputEmail2" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="InputPassword1" class="form-label">Password</label>
+            <input v-model="user.password" type="password" class="form-control" id="InputPassword1">
+        </div>
+        <div>
+            <label for="exampleInputPassword1" class="form-label">Role</label>
+            <select disabled class="form-select" v-model="user.role" aria-label="Default select example">
+                <option selected value="user">User</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="mb-3 mt-3 form-check">
+            <input v-model="user.check" type="checkbox" class="form-check-input" id="Check2">
+            <label class="form-check-label" for="Check2">Agree something</label>
+        </div>
+        <div><button @click.prevent="register" class="btn btn-primary">Register</button></div>
+    </form>
+    <table v-if="users.length">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Login</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="user of users">
+            <td>{{user.id}}</td>
+            <td>{{user.login}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.role}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="container">
+        <button @click="getUsers" class="btn btn-success">CLICK</button>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script src="index.js"></script>
+</body>
+</html>
